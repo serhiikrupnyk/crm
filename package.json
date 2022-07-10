@@ -11,6 +11,8 @@
     "core-js": "^3.8.3",
     "materialize-css": "^1.0.0-rc.2",
     "register-service-worker": "^1.7.2",
+    "timers": "^0.1.1",
+    "timers-browserify": "^2.0.12",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
