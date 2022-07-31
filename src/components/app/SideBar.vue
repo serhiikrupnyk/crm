@@ -8,7 +8,7 @@
         :exact="link.exact"
         active-class="active"
     >
-      <a href="#" class="waves-effect waves-orange pointer">{{ link.title }}</a>
+      <a href="#" class="waves-effect waves-green pointer">{{ link.title }}</a>
     </router-link>
   </ul>
 </template>
