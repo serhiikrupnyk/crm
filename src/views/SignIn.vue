@@ -15,48 +15,13 @@
       </div>
       <div class="input-field">
         <input
-            @input="passwordInputHandler"
             id="password"
             type="password"
             v-model.trim="password"
-            v-on:focus="isFocusedPasswordInput = true"
-            v-on:blur="isFocusedPasswordInput = false"
-            :class="{ invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.dirty && !$v.password.minLength) }"
+            :class="{ invalid: $v.password.$dirty && !$v.password.required }"
         >
         <label for="password">Password</label>
         <small v-if="$v.password.$dirty && !$v.password.required" class="helper-text invalid">Enter password</small>
-        <ul v-if="isFocusedPasswordInput || password" class="card-panel collection">
-          <li class="collection-item">
-            <label>
-              <input type="checkbox" class="filled-in" :checked="$v.password.containsUppercase && password" @click.prevent />
-              <span>Password contains uppercase characters</span>
-            </label>
-          </li>
-          <li class="collection-item">
-            <label>
-              <input type="checkbox" class="filled-in" :checked="$v.password.containsLowercase && password" @click.prevent />
-              <span>Password contains lowercase characters</span>
-            </label>
-          </li>
-          <li class="collection-item">
-            <label>
-              <input type="checkbox" class="filled-in" :checked="$v.password.containsNumber && password" @click.prevent />
-              <span>Password contains numbers</span>
-            </label>
-          </li>
-          <li class="collection-item">
-            <label>
-              <input type="checkbox" class="filled-in" :checked="$v.password.containsSpecial && password" @click.prevent />
-              <span>Password contains special characters</span>
-            </label>
-          </li>
-          <li class="collection-item">
-            <label>
-              <input type="checkbox" class="filled-in" :checked="$v.password.minLength && password" @click.prevent />
-              <span>The password must be at least 8 characters long</span>
-            </label>
-          </li>
-        </ul>
       </div>
     </div>
     <div class="card-action">
@@ -79,20 +44,13 @@
 </template>
 
 <script>
-import {email, required, minLength} from "vuelidate/lib/validators"
+import {email, required} from "vuelidate/lib/validators"
 
 export default {
   name: "SignIn",
   data: () => ({
     email: '',
-    password: '',
-    isFocusedPasswordInput: false,
-    rules: {
-      isUppercase: new RegExp('[A-Z]'),
-      isLowercase: new RegExp('[a-z]'),
-      isNumber: new RegExp('[0-9]'),
-      isSpecial: new RegExp('[#?!@$%^&*-]')
-    }
+    password: ''
   }),
   validations: {
     email: {
@@ -100,20 +58,7 @@ export default {
       required
     },
     password: {
-      required,
-      minLength: minLength(8),
-      containsUppercase: function(value) {
-        return value ? this.rules.isUppercase.test(value) : true;
-      },
-      containsLowercase: function(value) {
-        return value ? this.rules.isLowercase.test(value) : true;
-      },
-      containsNumber: function(value) {
-        return value ? this.rules.isNumber.test(value) : true;
-      },
-      containsSpecial: function(value) {
-        return value ? this.rules.isSpecial.test(value) : true
-      }
+      required
     }
   },
   methods: {
@@ -131,12 +76,6 @@ export default {
       console.log(formData)
 
       this.$router.push('/')
-    },
-    passwordInputHandler() {
-      console.log(this.$v.password.containsUppercase)
-    },
-    readOnlyCheckBox() {
-      return false
     }
   }
 }
