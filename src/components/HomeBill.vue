@@ -21,13 +21,11 @@ export default {
   }),
   computed: {
     base() {
-      console.log(this.rates)
       return this.$store.getters.info.bill
     }
   },
   methods: {
     getCurrency(currency) {
-      console.log(this.base / this.rates[currency])
       return Math.floor(this.base * this.rates[currency])
     }
   }
