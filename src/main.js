@@ -4,9 +4,11 @@ import App from './App.vue'
 import './registerServiceWorker'
 import messagePlugin from "@/utils/message.plugin";
 import dateFilter from "@/filters/date.filter"
+import currencyFilter from "@/filters/currency.filter";
 import router from './router'
 import store from './store'
 
+import PreLoader from "@/components/app/PreLoader";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/database"
@@ -28,7 +30,9 @@ firebase.initializeApp(firebaseConfig)
 
 Vue.use(messagePlugin)
 Vue.use(Vuelidate)
+Vue.component('PreLoader', PreLoader)
 Vue.filter('date', dateFilter)
+Vue.filter('currency', currencyFilter)
 
 let app
 
