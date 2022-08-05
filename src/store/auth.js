@@ -1,3 +1,4 @@
+/* eslint-disable */
 import firebase from "firebase/compat/app";
 
 export default {
@@ -6,11 +7,11 @@ export default {
             try {
                 await firebase.auth().signInWithEmailAndPassword(email, password)
             } catch (e) {
-                console.log(e)
+                commit('setError', e)
                 throw e
             }
         },
-        async register({dispatch}, {email, password, name}) {
+        async register({dispatch, commit}, {email, password, name}) {
             try {
                 await firebase.auth().createUserWithEmailAndPassword(email, password)
                 const uid = await dispatch('getUid')
@@ -19,7 +20,7 @@ export default {
                     name
                 })
             } catch (e) {
-                console.log(e)
+                commit('setError', e)
                 throw e
             }
         },

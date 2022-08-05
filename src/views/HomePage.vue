@@ -15,7 +15,7 @@
             <span class="card-title">Счет в валюте</span>
 
             <p class="currency-line">
-              <span>12.0 Р</span>
+              <span>12.0 $</span>
             </p>
           </div>
         </div>
@@ -38,7 +38,7 @@
 
               <tbody>
               <tr>
-                <td>руб</td>
+                <td>дол</td>
                 <td>12121</td>
                 <td>12.12.12</td>
               </tr>
