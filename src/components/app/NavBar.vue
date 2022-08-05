@@ -16,20 +16,20 @@
               data-target="dropdown"
               ref="dropdown"
           >
-            USER NAME
+            {{ name }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
           <ul id='dropdown' class='dropdown-content'>
             <li>
               <router-link to="/profile" class="black-text">
-                <i class="material-icons">account_circle</i>Профиль
+                <i class="material-icons">account_circle</i>Profile
               </router-link>
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
               <a @click.prevent="logout" href="#" class="black-text">
-                <i class="material-icons">assignment_return</i>Выйти
+                <i class="material-icons">assignment_return</i>Logout
               </a>
             </li>
           </ul>
@@ -53,6 +53,11 @@ export default {
     async logout() {
       await this.$store.dispatch('logout')
       this.$router.push('/login?message=logout')
+    }
+  },
+  computed: {
+    name() {
+      return this.$store.getters.info.name
     }
   },
   mounted() {
