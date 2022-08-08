@@ -4,9 +4,14 @@
       <h3>Categories</h3>
     </div>
     <section>
-      <div class="row">
+      <PreLoader v-if="loading" />
+      <div v-else class="row">
         <CategoryCreate @created="addNewCategory" />
-        <CategoryEdit />
+        <CategoryEdit
+            :key="categories.length + updateCount"
+            :categories="categories"
+            @updated="updateCategory"
+        />
       </div>
     </section>
   </div>
@@ -19,12 +24,23 @@ import CategoryEdit from "@/components/CategoryEdit";
 export default {
   name: "UserCategories",
   data: () => ({
-    categories: []
+    categories: [],
+    loading: true,
+    updateCount: 0
   }),
+  async mounted() {
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.loading = false
+  },
   methods: {
     addNewCategory(category) {
       this.categories.push(category)
-      console.log(this.categories)
+    },
+    updateCategory(category) {
+      const idx = this.categories.findIndex(c => c.id === category.id)
+      this.categories[idx].title = category.title
+      this.categories[idx].limit = category.limit
+      this.updateCount++
     }
   },
   components: {CategoryEdit, CategoryCreate}
