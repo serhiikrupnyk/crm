@@ -75,6 +75,7 @@
 
 <script>
 import {minValue, required} from "vuelidate/lib/validators";
+import {mapGetters} from "vuex";
 
 export default {
   name: "UserRecord",
@@ -90,6 +91,16 @@ export default {
   validations: {
     amount: {minValue: minValue(1)},
     description: {required}
+  },
+  computed: {
+    ...mapGetters(['info']),
+    canCreateRecord() {
+      if (this.type === 'income') {
+        return true
+      }
+
+      return this.info.bill >= this.amount
+    }
   },
   async mounted() {
     this.categories = await this.$store.dispatch('fetchCategories')
@@ -107,10 +118,35 @@ export default {
     }, 0)
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       if (this.$v.$invalid) {
         this.$v.$touch()
         return
+      }
+
+      if (this.canCreateRecord) {
+        try {
+          await this.$store.dispatch('createRecord', {
+            categoryId: this.category,
+            type: this.type,
+            amount: this.amount,
+            description: this.description,
+            date: new Date().toJSON()
+          })
+          const bill = this.type === 'income'
+              ? this.info.bill + this.amount
+              : this.info.bill - this.amount
+
+          await this.$store.dispatch('updateInfo', {bill})
+          this.$message('Record successfully created')
+          this.$v.reset()
+          this.amount = 1
+          this.description = ''
+        } catch (e) {
+          // eslint-disable-next-line
+        }
+      } else {
+        this.$message(`Not enough funds in the account (${this.amount - this.info.bill})`)
       }
     }
   },
