@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar green accent-2">
+  <nav class="navbar transparent">
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a @click.prevent="$emit('click')" href="#">
